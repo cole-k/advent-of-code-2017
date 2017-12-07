@@ -22,9 +22,8 @@ def find_imbalance(weights, children, node):
     # Exit early if everything is the same.
     if len(weight_counts) <= 1: return
     # The least frequent value will be the differing value.
-    # N.B. Counter.most_common() returns all counts, ordered in reverse by
-    # frequency. [-1] gets the last, and [0] gets the weight.
-    least_frequent_weight = weight_counts.most_common()[-1][0]
+    least_frequent_weight, lf_count = min(weight_counts.items(),
+                                          key = lambda tup: tup[1])
     # N.B. child_weights and children[node] are in the same order.
     lfw_node = children[node][child_weights.index(least_frequent_weight)]
     # Try to find an imbalance deeper into the tree (we want to get to the leaf
@@ -33,7 +32,8 @@ def find_imbalance(weights, children, node):
     if deeper_imbalance:
         return deeper_imbalance
     else:
-        most_frequent_weight = weight_counts.most_common(1)[0][0]
+        most_frequent_weight, mf_count = max(weight_counts.items(),
+                                             key = lambda tup: tup[1])
         imbalance = most_frequent_weight - least_frequent_weight
         return weights[lfw_node] + imbalance
 
