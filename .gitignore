@@ -1,0 +1,5 @@
+# Misc
+# No hidden files by default.
+.*
+# No neovim? files.
+*~
