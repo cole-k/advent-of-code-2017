@@ -3,6 +3,8 @@
 .*
 # No neovim? files.
 *~
+# No input files.
+*.in
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
