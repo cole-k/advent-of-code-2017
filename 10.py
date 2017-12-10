@@ -38,6 +38,9 @@ def dense_hash(l):
 
 
 def to_hexstring(l):
+    '''
+    Convert a list of values in the range[0,256) to a hexstring.
+    '''
     hexstring = ''
     for e in l:
         # Convert to hex and strip the '0x'.
