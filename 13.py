@@ -12,6 +12,9 @@ def does_trigger(lengths, delay):
     return False
 
 def shortest_delay(lengths):
+    '''
+    This is a brute force implementation of part 2.
+    '''
     delay = 0
     while does_trigger(lengths, delay):
         delay += 1
