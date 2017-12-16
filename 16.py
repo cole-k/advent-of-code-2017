@@ -8,6 +8,7 @@ def spin(n, l):
     l = l[-n:] + l[:-n]
     return l
 
+
 def swap_indeces(a, b, l):
     '''
     Swap the elements at positions a and b.
