@@ -1,8 +1,7 @@
+import sys
 # Disclaimer: some of the ugliest code I have ever written.
-# This doesn't even get the right answer (it hangs infinitely).
 
 def alpha(a,n):
-    
     return a+str(n) if a in 'abcdefghijklmnopqrstuvwxyz' else a
 
 for l in 'abcdefghijklmnopqrstuvwxyz':
@@ -41,7 +40,7 @@ while (not waiting0) or (not waiting1):
         ind0 += 1
         if line0 == 'rcv':
             if q0: 
-                exec(x + '=' + str(q0.pop()))
+                exec(x + '=' + str(q0.pop(0)))
                 waiting0 = False
             else:
                 waiting0 = True
@@ -70,7 +69,7 @@ while (not waiting0) or (not waiting1):
         ind1 += 1
         if line1 == 'rcv':
             if q1: 
-                exec(x + '=' + str(q1.pop()))
+                exec(x + '=' + str(q1.pop(0)))
                 waiting1 = False
             else:
                 waiting1 = True
