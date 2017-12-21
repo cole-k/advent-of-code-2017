@@ -3,31 +3,34 @@ from functools import reduce
 import sys, itertools
 import numpy as np
 
-def match(a, b):
+def match(a, d):
     temp = a[:]
     for _ in range(4):
-        if np.array_equal(temp, b):
-            return True
-        if np.array_equal(np.flip(temp, 1),b):
-            return True
+        hashable = tuple(map(tuple,temp))
+        if hashable in d:
+            return d[hashable]
+        flipped = np.flip(temp, 1)
+        hashable_flipped = tuple(map(tuple,flipped))
+        if hashable_flipped in d:
+            return d[hashable_flipped]
         temp = np.rot90(temp)
     return False
 
-size_two = []
-size_three = []
+size_two = {}
+size_three = {}
 for line in sys.stdin:
     a, _, b = line.rstrip().split(' ')
     a, b = a.split('/'), b.split('/')
-    a, b = list(map(list, a)), list(map(list, b))
+    a, b = tuple(map(tuple, a)), tuple(map(tuple, b))
     if len(a) == 2:
-        size_two.append((a,b))
+        size_two[a] = b
     if len(a) == 3:
-        size_three.append((a,b))
+        size_three[a] = b
 
 fractal = np.array(list('.#...####'))
 fractal.shape = (3,3)
 
-for i in range(18):
+for i in range(5):
     print(i)
     if len(fractal) % 2 == 0:
         new_fractal = [] 
@@ -35,12 +38,14 @@ for i in range(18):
             new_row = [] 
             for j in range(len(fractal) //2):
                 s = fractal[2*i:2*i+2,2*j:2*j+2]
-                for m in size_two:
-                    if match(s,m[0]):
-                        if j == 0:
-                            new_row = m[1]
-                        else:
-                            new_row = np.concatenate((new_row, m[1]), axis=1)
+                s = tuple(map(tuple,s))
+                m = match(s,size_two)
+                if not m:
+                    print('failure')
+                if j == 0:
+                    new_row = m
+                else:
+                    new_row = np.concatenate((new_row, m), axis=1)
             if i == 0:
                 new_fractal = new_row
             else:
@@ -53,12 +58,14 @@ for i in range(18):
             new_row = [] 
             for j in range(len(fractal) //3):
                 s = fractal[3*i:3*i+3,3*j:3*j+3]
-                for m in size_three:
-                    if match(s,m[0]):
-                        if j == 0:
-                            new_row = m[1]
-                        else:
-                            new_row = np.concatenate((new_row, m[1]), axis=1)
+                s = tuple(map(tuple,s[:]))
+                m = match(s,size_three)
+                if not m:
+                    print('failure')
+                if j == 0:
+                    new_row = m
+                else:
+                    new_row = np.concatenate((new_row, m), axis=1)
             if i == 0:
                 new_fractal = new_row
             else:
